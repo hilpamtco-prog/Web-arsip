@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hilpamt Archive</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="cyber-intro">
+        <canvas id="intro-canvas"></canvas>
+        
+        <div class="laser-scanner"></div>
+
+        <div class="hud-corner hud-tl"></div>
+        <div class="hud-corner hud-tr"></div>
+        <div class="hud-corner hud-bl"></div>
+        <div class="hud-corner hud-br"></div>
+        <div class="hud-telemetry">
+            SYS.STATUS: SECURE_STANDBY<br>
+            ENCRYPTION: COREL_QUANTUM_v26<br>
+            CORE_LOAD: 12GB_RAM_OPTIMIZED
+        </div>
+
+        <div class="intro-title-container">
+            <h1 class="intro-title">
+                Penyimpanan Digital<br>
+                <span class="glow-sub">Organisasi Induk</span><br>
+                <strong class="bold-glow">PERTAMA!</strong>
+            </h1>
+        </div>
+
+        <div class="get-started-column">
+            <p class="system-log">// ENTER THE NEXUS GATEWAY</p>
+            <button class="btn-ultimate-launch" onclick="initiateSystemLaunch()">
+                GET STARTED
+            </button>
+        </div>
+    </div>
+
+    <div class="liquid-background"></div>
+    <div class="glass-streaks"></div>
+    <div class="y2k-orb orb1"></div>
+    <div class="y2k-orb orb2"></div>
+    <div class="y2k-orb orb3"></div>
+    <div class="y2k-orb orb4"></div>
+
+    <div id="lock-screen">
+        <div class="lock-container">
+            <img class="lock-logo" src="assets/images/logo.png" alt="" width="500" height="500" />
+            <h2>Hilpamt Archive</h2>
+            <p>Masukkan Sandi Utama untuk Mengakses Basis Data</p>
+            <div class="password-input-group">
+                <input type="password" id="main-password" placeholder="••••" onkeydown="if(event.key==='Enter') verifyMainPassword()">
+            </div>
+            <button class="btn-cyber" onclick="verifyMainPassword()">Buka Arsip</button>
+            <div class="error-msg" id="lock-error">Sandi salah! Silakan coba lagi.</div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="Logo Hilpamt">
+            <span>Hilpamt Archive</span>
+        </div>
+        <div class="search-container">
+            <input type="text" id="global-search" placeholder="Cari file, arsip, dokumen..." onkeyup="handleSearch(event)">
+        </div>
+    </nav>
+
+    <button class="btn-back-home" id="global-home-btn" onclick="backToHome()">
+        <span>🔙</span> Kembali ke Beranda
+    </button>
+
+    <section class="hero" id="home-section">
+        <h1>Hilpamt Archive</h1>
+        <p class="tagline">DIGITAL VAULT & STRUCTURAL PORTAL</p>
+        <button class="btn-glass-portal" id="btn-explore" onclick="activateDock()">Mulai Jelajah</button>
+
+        <div class="dock-menu" id="app-dock">
+            <div class="dock-item" id="dock-lajnah" onclick="navigateTo('lajnah')"><span>📁</span> Lajnah</div>
+            <div class="dock-item active" id="dock-arsip" onclick="navigateTo('arsip')"><span>📊</span> Arsip</div>
+            <div class="dock-item" id="dock-proker" onclick="navigateTo('proker')"><span>📝</span> Proker</div>
+            <div class="dock-item" id="dock-visi" onclick="navigateTo('visi')"><span>✨</span> Visi Misi</div>
+        </div>
+    </section>
+
+    <section class="section-content" id="arsip-section">
+        <div class="section-header-box">
+            <h2 class="section-title">Arsip Dokumentasi</h2>
+            <p style="color: #64748b; margin-top: 5px;">Pilih tahun untuk membuka dan mengelola media</p>
+        </div>
+
+        <div class="years-grid">
+            <div class="year-card" id="yc-2021" onclick="selectYear(2021)">2021</div>
+            <div class="year-card" id="yc-2022" onclick="selectYear(2022)">2022</div>
+            <div class="year-card" id="yc-2023" onclick="selectYear(2023)">2023</div>
+            <div class="year-card" id="yc-2024" onclick="selectYear(2024)">2024</div>
+            <div class="year-card" id="yc-2025" onclick="selectYear(2025)">2025</div>
+        </div>
+
+        <div id="archive-manager" style="display: none;">
+            <div class="upload-area" id="drop-zone">
+                <p class="main-text">📤 Tarik & Lepaskan (Drag & Drop) Foto di Sini</p>
+                <p class="sub-text">Atau klik area ini untuk memilih file secara manual dari perangkat</p>
+                <input type="file" id="file-uploader" multiple accept="image/*" style="display: none;">
+            </div>
+
+            <h3 style="margin-bottom: 20px; font-weight: 700; border-left: 4px solid var(--neon-cyan); padding-left: 10px;" id="current-year-heading">Koleksi Media</h3>
+            <div class="gallery-grid" id="photo-gallery">
+                <div class="gallery-item">
+                    <div class="gallery-thumb">Dokumentasi_Kegiatan_1.jpg</div>
+                    <button class="btn-download" onclick="triggerDownload('Dokumentasi_Kegiatan_1.jpg')"><span>⬇️</span> Download</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-content" id="lajnah-section">
+        <div class="section-header-box">
+            <h2 class="section-title">8 Lajnah Struktural</h2>
+            <p style="color: #64748b; margin-top: 5px;">Klik lajnah untuk melihat detail fungsionaris & struktur</p>
+        </div>
+
+        <div class="lajnah-grid">
+            <div class="lajnah-card" onclick="openLajnahDetail('Nahdhatul Adzkiya', 'Ustadz Ahmad Fauzi', 'Ustadz M. Rizky', 'Fokus pengembangan intelektual, penalaran sains, serta kajian mendalam literatur keilmuan kontemporer santri.')">
+                <span class="lajnah-icon">💡</span>
+                <h3>Nahdhatul Adzkiya</h3>
+                <p>Pusat pengembangan intelektual, penalaran sains, dan kajian mendalam keilmuan kontemporer.</p>
+            </div>
+            <div class="lajnah-card" onclick="openLajnahDetail('ITQ (Ittihatul Qurra\')', 'Kang Ibrahim', 'Kang Yusuf Ali', 'Lembaga pembinaan qiraat, tajwid, tahfizh Al-Qur\'an, serta pengawalan seni tilawah santri.')">
+                <span class="lajnah-icon">📖</span>
+                <h3>ITQ</h3>
+                <p>Wadah pembinaan pembacaan, penjagaan tahfizh, serta pendalaman seni tilawah Al-Qur'an.</p>
+            </div>
+            <div class="lajnah-card" onclick="openLajnahDetail('LTQ (Lajnah Tahfizh Al-Qur\'an)', 'Kang Wildan', 'Kang Hasan Basri', 'Khusus mengoordinasi program hafalan Al-Qur\'an, setoran rutin, tasmik massal, dan mutqin hafalan.')">
+                <span class="lajnah-icon">🔒</span>
+                <h3>LTQ</h3>
+                <p>Lembaga khusus yang mengawal akselerasi hafalan, standardisasi tasmik, dan kelancaran setoran ayat.</p>
+            </div>
+            <div class="lajnah-card" onclick="openLajnahDetail('Syi\'ir', 'Gus Muhammad', 'Kang Nasir', 'Mengembangkan kreativitas sastra islam, penulisan nazham, pembacaan qashaid, dan apresiasi seni syi\'ir klasik.')">
+                <span class="lajnah-icon">✍️</span>
+                <h3>Syi'ir</h3>
+                <p>Eksplorasi sastra, gubahan nazham, seni melantunkan bait-bait puitis dan qashaid bernilai filosofis.</p>
+            </div>
+            <div class="lajnah-card" onclick="openLajnahDetail('Nahwiyyin', 'Kang Farhan', 'Kang Ridwan S.', 'Pendalaman kaidah tata bahasa Arab, analisis gramatikal (i\'rab) kitab kuning, dan penguatan literasi turats.')">
+                <span class="lajnah-icon">⚗️</span>
+                <h3>Nahwiyyin</h3>
+                <p>Klub eksklusif pendalaman gramatikal bahasa Arab, penguasaan i'rab, dan bedah tuntas kaidah Nahwu-Sharaf.</p>
+            </div>
+            <div class="lajnah-card" onclick="openLajnahDetail('Falak', 'Kang Zulfikar', 'Kang Lukman', 'Kajian astronomi Islam, perhitungan hisab awal bulan, arah kiblat, serta operasional instrumen falakiyah.')">
+                <span class="lajnah-icon">🔭</span>
+                <h3>Falak</h3>
+                <p>Pusat studi astronomi islam, simulasi ilmu hisab, penentuan waktu ibadah, dan pemetaan arah kiblat.</p>
+            </div>
+            <div class="lajnah-card" onclick="openLajnahDetail('Sanad', 'Kang Danial', 'Kang Fahri', 'Penelusuran transmisi keilmuan, autentisitas ijazah kitab, dan dokumentasi silsilah guru-murid.')">
+                <span class="lajnah-icon">📜</span>
+                <h3>Sanad</h3>
+                <p>Pelestarian transmisi keilmuan, verifikasi keotentikan ijazah kitab turats, dan jalur silsilah ilmiah.</p>
+            </div>
+             <div class="lajnah-card" onclick="openLajnahDetail('Ta\'lif', 'Gus Qeling', 'Dede Salim', 'Mengembangkan kreativitas sastra islam, penulisan nazham, pembacaan qashaid, dan apresiasi seni syi\'ir klasik.')">
+                <span class="lajnah-icon">💻</span>
+                <h3>Ta'lif</h3>
+                <p>Di jemari Lajnah yang diketuai oleh sang dewa listrik Aqis Bilqis, aksara ulama ditata penuh khidmah. Setiap aliran energi, garis margin, dan ketukan tata letak adalah jalan setapak yang mereka bentang, agar santri lokal tak tersesat saat mengeja warisan nubuwah.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-content" id="proker-section">
+        <div class="section-header-box">
+            <h2 class="section-title">Program Kerja HILPAMT</h2>
+            <p style="color: #64748b; margin-top: 5px;">Rencana program taktis berkala Himpunan Lajnah Pelajar Amtsilati</p>
+        </div>
+        <div class="info-panel">
+            <h3>📋 Daftar Program Kerja Aktif</h3>
+            
+            <table class="proker-table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">NO</th>
+                        <th style="width: 20%">PROGRAM</th>
+                        <th style="width: 20%">WAKTU PELAKSANAAN</th>
+                        <th style="width: 15%">SASARAN</th>
+                        <th style="width: 25%">TUJUAN</th>
+                        <th style="width: 15%">PENANGGUNG JAWAB</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td style="font-weight: 600; color: var(--neon-cyan)">SERAMBI ILLIYYIN</td>
+                        <td>Jum'at, Sabtu, Selasa, Rabu</td>
+                        <td>Seluruh Santri Illiyyin</td>
+                        <td>Menciptakan lingkungan keilmuan dan menghidupkan malam di Illiyyin</td>
+                        <td>ALL CREW</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td style="font-weight: 600; color: var(--neon-cyan)">MUSTAKA ATI</td>
+                        <td>Setiap hari kecuali Selasa dan Jum'at</td>
+                        <td>Seluruh Santri Illiyyin</td>
+                        <td>Menumbuhkan semangat mutholaah Amtsilati</td>
+                        <td>EVAN</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td style="font-weight: 600; color: var(--neon-cyan)">NEW HILPAMT</td>
+                        <td>2 Minggu / 1 X (Jumat)</td>
+                        <td>Masyarakat Pondok</td>
+                        <td>Memberikan informasi berdasarkan kebutuhan masyarakat pondok melalui mading</td>
+                        <td>WORK SPACE</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td style="font-weight: 600; color: var(--neon-cyan)">RUMAH PINTAR</td>
+                        <td>Setiap Malam</td>
+                        <td>Santri yang kesulitan dalam memahami kitab di luar KBM</td>
+                        <td>Mempermudah pemahaman sekaligus menambah jam terbang memahami kitab di luar KBM</td>
+                        <td>HUMAS</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td style="font-weight: 600; color: var(--neon-cyan)">SEMPIL</td>
+                        <td>1 Periode 3 X</td>
+                        <td>Seluruh Santri Illiyyin</td>
+                        <td>Memberikan wawasan yang dibutuhkan oleh santri Illiyyin</td>
+                        <td>SUPERVISOR</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td style="font-weight: 600; color: var(--neon-cyan)">MUROKIB</td>
+                        <td>1 Bulan 1 Kali</td>
+                        <td>Seluruh Santri Illiyyin untuk lulus pasca</td>
+                        <td>Pendidikan HILPAMT</td>
+                        <td>PENDIDIKAN HILPAMT</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section-content" id="visi-section">
+        <div class="section-header-box">
+            <h2 class="section-title">Visi & Misi</h2>
+        </div>
+        <div class="info-panel">
+            <h3>✨ Visi Utama</h3>
+            <p>"Terwujudnya koordinasi pelajar Amtsilati yang progresif, berintegritas tinggi, unggul dalam penguasaan literatur klasik, serta adaptif terhadap akselerasi teknologi modern."</p>
+        </div>
+    </section>
+
+    <div class="lajnah-modal" id="detail-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLajnahModal()">&times;</span>
+            <h3 id="modal-lajnah-title" style="color: var(--neon-cyan); margin-bottom: 5px;">Nama Lajnah</h3>
+            <p id="modal-lajnah-desc" style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Deskripsi Lajnah</p>
+            <div class="structural-list">
+                <div class="structural-item"><span class="role">Ketua Lajnah</span><span id="modal-ketua">Nama Ketua</span></div>
+                <div class="structural-item"><span class="role">Sekretaris Lajnah</span><span id="modal-sekretaris">Nama Sekretaris</span></div>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
